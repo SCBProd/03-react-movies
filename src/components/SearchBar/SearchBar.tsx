@@ -1,6 +1,6 @@
 // src/components/SearchBar/SearchBar.tsx
-import { FormEvent } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import type { FormEvent } from "react";
+import toast from "react-hot-toast";
 import styles from "./SearchBar.module.css";
 
 interface SearchBarProps {
