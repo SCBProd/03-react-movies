@@ -6,7 +6,7 @@ import MovieGrid from "../MovieGrid/movieGrid";
 import ErrorMessage from "../ErrorMessage/errorMessage";
 import MovieModal from "../MovieModal/movieModal";
 import axios from "axios";
-import type { Movie } from "../services/movie"; // шлях від App.tsx до movie.ts
+import type { Movie } from "../../services/movie"; // шлях від App.tsx до movie.ts
 
 
 
