@@ -6,7 +6,7 @@ import MovieGrid from "../MovieGrid/movieGrid";
 import ErrorMessage from "../ErrorMessage/errorMessage";
 import MovieModal from "../MovieModal/movieModal";
 import axios from "axios";
-import type { Movie } from "../../services/movie";
+import type { Movie } from "../../types/movie";
 
 
 
