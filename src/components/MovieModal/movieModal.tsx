@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import css from "./MovieModal.module.css";
-import type { Movie } from "../../types/movie";
-import type { MovieModalProps} from "../../types/MovieModalProps"
+import type Movie from "../../types/movie"
 
-
+export type MovieModalProps = {
+  movie: Movie;
+  onClose: () => void;
+};
 export default function MovieModal({ movie, onClose }: MovieModalProps) {
   // Закриваємо на ESC
   useEffect(() => {
