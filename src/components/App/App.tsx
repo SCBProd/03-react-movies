@@ -1,14 +1,15 @@
+// src/components/App/App.tsx
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+
 import SearchBar from "../SearchBar/SearchBar";
-import Loader from "../Loader/loader";
-import MovieGrid from "../MovieGrid/movieGrid";
-import ErrorMessage from "../ErrorMessage/errorMessage";
-import MovieModal from "../MovieModal/movieModal";
-import axios from "axios";
+import MovieGrid from "../MovieGrid/MovieGrid";
+import Loader from "../Loader/Loader";
+import MovieModal from "../MovieModal/MovieModal";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+
 import type { Movie } from "../../types/movie";
-
-
+import { fetchMovies } from "../../services/movieService";
 
 export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -16,34 +17,20 @@ export default function App() {
   const [error, setError] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
+  async function handleSubmit(query: string) {
+    setIsLoading(true);
+    setError(false);
 
-  async function handleSearch(query: string) {
     try {
-      setIsLoading(true);
-      setError(false);
+      const results = await fetchMovies(query);
 
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/search/movie`,
-        {
-          params: { query },
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-            "Content-Type": "application/json;charset=utf-8",
-          },
-        }
-      );
-
-      if (data.results.length === 0) {
-        setMovies([]);
+      if (results.length === 0) {
         toast.error("No movies found for your request.");
-        return;
       }
 
-      setMovies(data.results);
-    } catch (err) {
+      setMovies(results);
+    } catch {
       setError(true);
-      setMovies([]);
       toast.error("Something went wrong.");
     } finally {
       setIsLoading(false);
@@ -61,7 +48,7 @@ export default function App() {
   return (
     <>
       <Toaster position="top-right" />
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSubmit={handleSubmit} />
 
       {isLoading && <Loader />}
       {error && <ErrorMessage />}
